@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ recipe.title }}{% endblock %}
+
+{% block body %}
+    <p class="fw-bold">Title</p>
+    <p>{{ recipe.title }}</p>
+
+    <p class="fw-bold">Description</p>
+    <p>{{ recipe.description }}</p>
+
+    <p class="fw-bold">Duration</p>
+    <p>{{ recipe.duration }} min</p>
+
+    <div class="d-flex align-items-center">
+        <a class="btn btn-primary me-3" href="{{ path('recipe.edit', {id: recipe.id}) }}">
+            Edit
+        </a>
+        <a class="btn btn-danger" href="{{ path('recipe.delete', {id: recipe.id}) }}">
+            Delete
+        </a>
+    </div>
+{% endblock %}
