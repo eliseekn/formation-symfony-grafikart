@@ -1,33 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Recipes{% endblock %}
+{% block title %}Categories{% endblock %}
 
 {% block body %}
-    <a class="btn btn-primary mb-3" href="{{ path('recipe.create') }}">
-        Create new recipe
+    <a class="btn btn-primary mb-3" href="{{ path('admin.category.create') }}">
+        Create new category
     </a>
 
     <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Title</th>
+            <th scope="col">Name</th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-        {% for recipe in recipes %}
+        {% for category in categories %}
             <tr>
-                <th scope="row">{{ recipe.id }}</th>
-                <td>
-                    <a href="{{ path('recipe.show', {id: recipe.id}) }}">{{ recipe.title }}</a>
-                </td>
+                <th scope="row">{{ category.id }}</th>
+                <td>{{ category.name }}</td>
                 <td>
                     <div class="d-flex align-items-center">
-                        <a class="btn btn-primary me-3" href="{{ path('recipe.edit', {id: recipe.id}) }}">
+                        <a class="btn btn-primary me-3" href="{{ path('admin.category.edit', {id: category.id}) }}">
                             Edit
                         </a>
-                        <form action="{{ path('recipe.delete', {id: recipe.id}) }}" method="post">
+                        <form action="{{ path('admin.category.delete', {id: category.id}) }}" method="post">
                             <input type="hidden" name="_method" value="DELETE">
                             <button class="btn btn-danger" type="submit">
                                 Delete

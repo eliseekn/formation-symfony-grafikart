@@ -35,10 +35,10 @@ class ContactType extends AbstractType
 
     public function setTimestamps(PostSubmitEvent $event): void
     {
-        $contact = $event->getData();
+        $data = $event->getData();
 
-        if ($contact instanceof Contact) {
-            $contact->setCreatedAt(new \DateTimeImmutable());
+        if ($data instanceof Contact) {
+            $data->setCreatedAt(new \DateTimeImmutable());
         }
     }
 
