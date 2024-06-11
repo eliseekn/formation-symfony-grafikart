@@ -13,6 +13,7 @@
             <th scope="col">#</th>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
+            <th scope="col">Category</th>
             <th scope="col">Duration (min)</th>
             <th scope="col"></th>
         </tr>
@@ -25,6 +26,7 @@
                     <a href="{{ path('admin.recipe.show', {id: recipe.id}) }}">{{ recipe.title }}</a>
                 </td>
                 <td>{{ recipe.description | u.truncate(100, '...') }}</td>
+                <td>{{ recipe.category.name }}</td>
                 <td>{{ recipe.duration }}</td>
                 <td>
                     <div class="d-flex align-items-center">
