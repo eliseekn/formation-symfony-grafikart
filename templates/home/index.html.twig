@@ -9,7 +9,12 @@
 
     <ul>
         {% for recipe in recipes %}
-            <li><a href="{{ path('recipe.show', {id: recipe.id}) }}">{{ recipe.title }}</a></li>
+            <li>
+                <a href="{{ path('recipe.show', {id: recipe.id}) }}">
+                    <img src="{{ asset('/images/' ~ recipe.image) }}" alt="" width="100">
+                    <span class="ms-2">{{ recipe.title }}</span>
+                </a>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

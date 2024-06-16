@@ -25,6 +25,8 @@ class CategoryType extends AbstractType
                 'class' => Recipe::class,
                 'choice_label' => 'title',
                 'multiple' => true,
+                'by_reference' => false,
+                'expanded' => true,
             ])
             ->add('save', SubmitType::class)
             ->addEventListener(FormEvents::POST_SUBMIT, $this->setTimestamps(...))

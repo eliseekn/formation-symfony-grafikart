@@ -3,7 +3,10 @@
 {% block title %}{{ recipe.title }}{% endblock %}
 
 {% block body %}
-    <p class="fw-bold">Title</p>
+    <p class="fw-bold">Image</p>
+    <img src="{{ asset('/images/' ~ recipe.image) }}" alt="" width="300">
+
+    <p class="fw-bold mt-3">Title</p>
     <p>{{ recipe.title }}</p>
 
     <p class="fw-bold">Description</p>
@@ -19,8 +22,11 @@
         <a class="btn btn-primary me-3" href="{{ path('admin.recipe.edit', {id: recipe.id}) }}">
             Edit
         </a>
-        <a class="btn btn-danger" href="{{ path('admin.recipe.delete', {id: recipe.id}) }}">
-            Delete
-        </a>
+        <form action="{{ path('admin.recipe.delete', {id: recipe.id}) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <button class="btn btn-danger" type="submit">
+                Delete
+            </button>
+        </form>
     </div>
 {% endblock %}

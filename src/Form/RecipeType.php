@@ -7,12 +7,15 @@ use App\Entity\Recipe;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PostSubmitEvent;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RecipeType extends AbstractType
 {
@@ -30,6 +33,11 @@ class RecipeType extends AbstractType
             ->add('duration', options: [
                 'label' => 'Duration (min)',
                 'constraints' => new GreaterThan(10)
+            ])
+            ->add('file', FileType::class, [
+                'constraints' => [new Image(), new NotBlank()],
+                'label' => 'Image',
+                'mapped' => false,
             ])
             ->add('save', SubmitType::class)
             ->addEventListener(FormEvents::POST_SUBMIT, $this->setTimestamps(...))

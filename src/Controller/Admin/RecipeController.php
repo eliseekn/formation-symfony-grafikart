@@ -7,6 +7,7 @@ use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,7 +38,10 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            unlink($this->getParameter('kernel.project_dir') . '/public/images/' . $recipe->getImage());
+            $recipe->setImage($this->uploadFile($form->get('file')->getData()));
             $entityManager->flush();
+
             $this->addFlash('success', 'Recipe updated successfully');
             return $this->redirectToRoute('admin.recipe.show', ['id' => $recipe->getId()]);
         }
@@ -56,6 +60,8 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $recipe->setImage($this->uploadFile($form->get('file')->getData()));
+
             $entityManager->persist($recipe);
             $entityManager->flush();
 
@@ -71,10 +77,18 @@ class RecipeController extends AbstractController
     #[Route('/{id}/delete', name: 'delete', methods: ['DELETE'])]
     public function delete(Recipe $recipe, EntityManagerInterface $entityManager): Response
     {
+        unlink($this->getParameter('kernel.project_dir') . '/public/images/' . $recipe->getImage());
         $entityManager->remove($recipe);
         $entityManager->flush();
 
         $this->addFlash('success', 'Recipe deleted successfully');
         return $this->redirectToRoute('admin.recipe.index');
+    }
+
+    private function  uploadFile(UploadedFile $file): string
+    {
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.' . $file->guessExtension();
+        $file->move($this->getParameter('kernel.project_dir') . '/public/images', $filename);
+        return $filename;
     }
 }
